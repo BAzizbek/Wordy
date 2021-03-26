@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/style.css">
+  <script defer src="/js/application.js"></script>
+  <script defer src="/js/audio.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" />
+  <title>Wordy</title>
+</head>
+
+<body>
+
+  <header>
+    <nav>
+      <div class="container">
+        <a class="navbar-brand" href="/">Wordy</a>
+        <div>
+          <div class="input-group">
+            <input type="text" id="wordInput" required class="form-control">
+          </div>
+          <a id="searchBtn" href="/">Search</a>
+          <a id="clearBtn" href="/">Clear</a>
+          <div>
+            <select name="select" id="select" required>
+              <option value="synonyms">Synonyms</option>
+              <option value="definitions">Definitions</option>
+              <option value="examples">Examples</option>
+            </select>
+          </div>
+        </div>
+        <div class="auth-container">
+          {{#if check}}
+          <a id="logoutBtn" href="/auth/logout">Logout</a>
+          {{else}}
+          <form id="login" action="/auth/login" method="GET">
+            <button class="first" type="submit">Login</button>
+          </form>
+          <form id="signup" action="/auth/signup" method="GET" class="d-flex">
+            <button type="submit">Sign Up</button>
+          </form>
+          {{/if}}
+        </div>
+      </div>
+    </nav>
+  </header>
+
+
+<div>
+  {{{body}}}
+</div>
+
+</body>
+</html>
