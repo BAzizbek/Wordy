@@ -1,12 +1,12 @@
-// const listenBtn = document.getElementById('myvoice');
-// console.log()
+const listenBtns = document.querySelectorAll("[id='myvoice']");
+const synth = window.speechSynthesis;
 
-// listenBtn.addEventListener('click', (e) => {
-//   e.preventDefault();
-
-//   const msg = new SpeechSynthesisUtterance(
-//     "Hello, hope my code is helpful"
-//   );
-//   window.speechSynthesis.speak(msg);
-
-// });
+listenBtns.forEach((btn) =>
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log(btn.value);
+        const msg = new SpeechSynthesisUtterance(btn.value);
+        synth.speak(msg);
+        console.log(msg);
+    })
+);

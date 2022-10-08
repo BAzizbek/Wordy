@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="/js/audio.js"></script>
+    <link rel="icon" href="/favicon.ico">
+    <title>Wordy</title>
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+        crossorigin="anonymous">
+    <script
+        defer
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="bg-light">
+    <header>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Wordy</a>
+                <form action="/" method="post" class="d-flex flex-column w-50">
+                    <input
+                        class="form-control me-2"
+                        aria-label="Search"
+                        name="word"
+                        type="search"
+                        placeholder="search..."
+                        class="input"
+                        required
+                    />
+                    <div class="d-flex">
+                        <button class="btn btn-outline-success w-50" type="submit">Search</button>
+                        <select class="form-select w-50" name="type" id="select" required>
+                            <option value="synonyms">Synonyms</option>
+                            <option value="definitions">Definitions</option>
+                            <option value="examples">Examples</option>
+                        </select>
+                    </div>
+                </form>
+                <div class="dropdown">
+                    <button
+                        class="btn btn-secondary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                        id="dropdownMenuButton1"
+                    >
+                        Account
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        {{#if check}}
+                            <li><a class="dropdown-item" href="/auth/logout">Logout</a></li>
+                        {{else}}
+                            <li><a class="dropdown-item" href="/auth/login">Login</a></li>
+                            <li><a class="dropdown-item" href="/auth/signup">Sign Up</a></li>
+                        {{/if}}
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="h-100 d-flex justify-content-center align-items-center">
+        {{{body}}}
+    </main>
+</body>
+</html>

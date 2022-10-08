@@ -1,6 +1,16 @@
-<form action="/auth/signup" method="post">
-  <input type="email" name="email" id="email" placeholder="Email">
-  <input type="text" name="username" id="username" placeholder="Username">
-  <input type="password" name="password" id="password" placeholder="Password">
-  <button type="submit">Sign Up</button>
+<form action="/auth/signup" method="post" class="row g-3 w-25">
+    <div class="form-floating p-0">
+        <input type="email" class="form-control" id="email" placeholder="Email" required>
+        <label for="email">Email</label>
+    </div>
+    <div class="form-floating p-0">
+        <input type="username" class="form-control" id="username" placeholder="Username" required>
+        <label for="username">Username</label>
+    </div>
+    <div class="form-floating p-0">
+        <input type="password" class="form-control" id="password" placeholder="Password" required>
+        <label for="password">Password</label>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Sign Up</button>
 </form>
