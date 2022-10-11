@@ -1,25 +1,34 @@
-function cookieCleaner(req, res, next) {
-    if (req.cookie.user_sid && !req.session.user) {
-        res.clearCookie('user_sid');
-    }
-    next();
-}
+const jwt = require('jsonwebtoken');
+const User = require('../models/user');
 
-function sessionChecker(req, res, next) {
-    if (req.session.user) {
-        res.redirect('/');
-    } else {
-        next();
-    }
-}
+const JWT_SECRET = process.env.JWT_SECRET;
+const MAX_AGE = 3 * 24 * 60 * 60;
+
+const createToken = (id) => {
+    return jwt.sign({ id }, JWT_SECRET, {
+        expiresIn: MAX_AGE,
+    });
+};
 
 const checkUser = (req, res, next) => {
-    if (req.session.user) {
-        res.locals.check = true;
-        next();
+    const token = req.cookies.jwt;
+
+    if (token) {
+        jwt.verify(token, JWT_SECRET, async (err, decodedToken) => {
+            if (err) {
+                res.locals.user = null;
+                console.log(err);
+                next();
+            } else {
+                const user = await User.findById(decodedToken.id);
+                res.locals.user = user;
+                next();
+            }
+        });
     } else {
-        res.locals.check = false;
+        res.locals.user = null;
         next();
     }
 };
-module.exports = { sessionChecker, cookieCleaner, checkUser };
+
+module.exports = { checkUser, createToken };

@@ -3,7 +3,7 @@ const fetch = require('node-fetch');
 const Word = require('../models/word');
 
 router.route('/').get((_, res) => {
-    res.render('wordListCard');
+    res.render('search');
 });
 
 router.route('/').post(async (req, res) => {
@@ -21,25 +21,25 @@ router.route('/').post(async (req, res) => {
         // const words = await Word.find({ owner: req.session.user._id })
         //     .populate('owner')
         //     .exec();
-        console.log(words);
         const jsonData = await data.json();
+        console.log(jsonData);
         if (jsonData.word) {
-            // if (req.session.user._id) {
-            //     const word = new Word({
-            //         owner: req.session.user._id,
-            //         word: jsonData.word,
-            //     });
-            //     await word.save();
-            // }
+            if (res.locals.user._id) {
+                const word = new Word({
+                    owner: res.locals.user._id,
+                    word: jsonData.word,
+                });
+                await word.save();
+            }
 
-            res.render('wordListCard', {
+            res.render('wordCard', {
                 [req.body.type]: jsonData[req.body.type],
             });
         } else {
             throw Error('word not found ');
         }
     } catch (error) {
-        res.render('wordListCard', {
+        res.render('wordCard', {
             [req.body.type]: [error.message],
         });
     }

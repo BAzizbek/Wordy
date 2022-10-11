@@ -1,0 +1,19 @@
+<form action="/" method="post" class="d-flex flex-column w-50">
+    <input
+        class="form-control me-2"
+        aria-label="Search"
+        name="word"
+        type="search"
+        placeholder="search..."
+        class="input"
+        required
+    />
+    <div class="d-flex">
+        <button class="btn btn-outline-success w-50" type="submit">Search</button>
+        <select class="form-select w-50" name="type" id="select" required>
+            <option value="synonyms">Synonyms</option>
+            <option value="definitions">Definitions</option>
+            <option value="examples">Examples</option>
+        </select>
+    </div>
+</form>

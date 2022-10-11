@@ -26,25 +26,6 @@
         <nav class="navbar navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Wordy</a>
-                <form action="/" method="post" class="d-flex flex-column w-50">
-                    <input
-                        class="form-control me-2"
-                        aria-label="Search"
-                        name="word"
-                        type="search"
-                        placeholder="search..."
-                        class="input"
-                        required
-                    />
-                    <div class="d-flex">
-                        <button class="btn btn-outline-success w-50" type="submit">Search</button>
-                        <select class="form-select w-50" name="type" id="select" required>
-                            <option value="synonyms">Synonyms</option>
-                            <option value="definitions">Definitions</option>
-                            <option value="examples">Examples</option>
-                        </select>
-                    </div>
-                </form>
                 <div class="dropdown">
                     <button
                         class="btn btn-secondary dropdown-toggle"
@@ -56,13 +37,14 @@
                         Account
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        {{#if check}}
+                        {{#if user}}
                             <li><a class="dropdown-item" href="/auth/logout">Logout</a></li>
                         {{else}}
                             <li><a class="dropdown-item" href="/auth/login">Login</a></li>
                             <li><a class="dropdown-item" href="/auth/signup">Sign Up</a></li>
                         {{/if}}
                     </ul>
+                    <a class="dropdown-item" href="/list">List</a>
                 </div>
             </div>
         </nav>

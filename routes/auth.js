@@ -1,50 +1,60 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const { sessionChecker } = require('../middlewares/auth');
+const { checkUser, createToken } = require('../middlewares/auth');
 const User = require('../models/user');
 
 router
     .route('/login')
-    .get(sessionChecker, (req, res) => {
+    .get(checkUser, (_, res) => {
         res.render('auth/login');
     })
     .post(async (req, res) => {
         const { email, password } = req.body;
-        const user = await User.findOne({ email });
-        if (user && (await bcrypt.compare(password, user.password))) {
-            req.session.user = user;
-            res.redirect('/');
-        } else {
-            res.redirect('/auth/login');
+        try {
+            const user = await User.findOne({ email });
+
+            if (user && (await bcrypt.compare(password, user.password))) {
+                const token = createToken(user._id);
+                res.cookie('jwt', token, {
+                    httpOnly: true,
+                    maxAge: 3 * 24 * 60 * 60 * 1000,
+                });
+                res.redirect('/');
+            } else {
+                res.redirect('/auth/login');
+            }
+        } catch (error) {
+            console.log(error);
         }
     });
 
 router
     .route('/signup')
-    .get(sessionChecker, (req, res) => {
+    .get(checkUser, (_, res) => {
         res.render('auth/signup');
     })
     .post(async (req, res) => {
         const { username, email, password } = req.body;
-        const salt = 10;
-        const user = new User({
-            username,
-            email,
-            password: await bcrypt.hash(password, salt),
-        });
-        await user.save();
-        req.session.user = user;
-        res.redirect('/');
+        try {
+            const user = await User.create({
+                username,
+                email,
+                password,
+            });
+            const token = createToken(user._id);
+            res.cookie('jwt', token, {
+                httpOnly: true,
+                maxAge: 3 * 24 * 60 * 60 * 1000,
+            });
+            res.redirect('/');
+        } catch (error) {
+            console.error(error);
+        }
     });
 
-router.get('/logout', async (req, res) => {
-    if (req.session.user) {
-        await req.session.destroy();
-        res.clearCookie('user_sid');
-        res.redirect('/');
-    } else {
-        res.redirect('/');
-    }
+router.get('/logout', async (_, res) => {
+    res.clearCookie('jwt');
+    res.redirect('/');
 });
 
 module.exports = router;
