@@ -10,8 +10,5 @@ body {
     padding: 0;
     margin: 0;
     height: 100vh;
-}
-
-.dropdown .show {
-    min-width: 1rem;
+    width: 100vw;
 }

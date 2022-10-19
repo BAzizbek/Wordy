@@ -1,12 +1,16 @@
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const { checkUser, createToken } = require('../middlewares/auth');
+const { createToken } = require('../middlewares/auth');
 const User = require('../models/user');
 
 router
     .route('/login')
-    .get(checkUser, (_, res) => {
-        res.render('auth/login');
+    .get((_, res) => {
+        if (!res.locals.user) {
+            res.render('auth/login');
+        } else {
+            res.redirect('/');
+        }
     })
     .post(async (req, res) => {
         const { email, password } = req.body;
@@ -30,8 +34,12 @@ router
 
 router
     .route('/signup')
-    .get(checkUser, (_, res) => {
-        res.render('auth/signup');
+    .get((_, res) => {
+        if (!res.locals.user) {
+            res.render('auth/signup');
+        } else {
+            res.redirect('/');
+        }
     })
     .post(async (req, res) => {
         const { username, email, password } = req.body;
@@ -49,6 +57,10 @@ router
             res.redirect('/');
         } catch (error) {
             console.error(error);
+            res.render('errors', {
+                code: 404,
+                message: 'Can not create user',
+            });
         }
     });
 

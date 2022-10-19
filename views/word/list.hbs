@@ -1,0 +1,41 @@
+{{#if words}}
+<table class="table table-bordered text-center">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Word</th>
+      <th scope="col">Search Count</th>
+      <th scope="col">Last Search</th>
+      <th scope="col">*</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each words}}
+        <tr>
+            <th scope="row">
+                {{inc @index}}
+            </th>
+            <td>                
+                {{this.word}}
+            </td>
+            <td>
+                {{this.searchCount}}
+            </td>
+            <td>
+                {{parseDate this.lastSearch}}
+            </td>
+            <td>
+                {{#if this.isFavourite}}
+                    *
+                    {{else}}
+                    -
+                {{/if}}
+            </td>
+        </tr>
+    {{/each}}
+    </ol>
+  </tbody>
+</table>
+{{else}}
+    <div>Empty list</div>
+{{/if}}

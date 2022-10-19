@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./handlers/hbs');
 const morgan = require('morgan');
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -18,14 +19,11 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+routings(app);
 
-// app.set('views', path.join(__dirname, '..', 'views'));
 app.engine('hbs', engine({ defaultLayout: 'index', extname: '.hbs' }));
 app.set('view engine', 'hbs');
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-routings(app);
 
 const PORT = process.env.PORT || 3000;
 
